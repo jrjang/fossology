@@ -69,7 +69,8 @@ RUN set -x \
         /etc/apache2/conf-available/fossology.conf \
  && ln -s /etc/apache2/conf-available/fossology.conf \
         /etc/apache2/conf-enabled/fossology.conf \
- && echo Listen 8081 >/etc/apache2/ports.conf
+ && echo Listen 80 >/etc/apache2/ports.conf \
+ && sed -i s/www-data/fossy/g /etc/apache2/envvars
 
 RUN set -x \
  && chmod -R o+r /etc/apache2 \
@@ -78,7 +79,7 @@ RUN set -x \
  && chown -R fossy:fossy /var/run/apache2/ \
  && chown -R fossy:fossy /var/lock/apache2/
 
-EXPOSE 8081
+EXPOSE 80
 
 ################################################################################
 VOLUME /srv/fossology/repository/
